@@ -10,7 +10,7 @@ Create a simple timer application that will count minutes and seconds
 
 ### Links and Resources
 
-- [GitHub PR - lab41]() 
+- [GitHub PR - lab41](https://github.com/stevengant/timer/pull/2) 
 
 
 ### Collaborators
