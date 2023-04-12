@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
+import { App as Swapi } from './Components/App';
+import { NavigationContainer } from '@react-navigation/native';
 
 const screen = Dimensions.get('window');
 
@@ -14,10 +15,10 @@ const getRemaining = (time) => {
 
 }
 
-export default function App() {
+export default function App({ navigation }) {
   const [remSecs, setRemSecs] = useState(0);
   const [active, setIsActive] = useState(false);
-  const {mins, secs} = getRemaining(remSecs);
+  const { mins, secs } = getRemaining(remSecs);
 
   toggle = () => {
     setIsActive(!active);
@@ -30,11 +31,11 @@ export default function App() {
 
   useEffect(() => {
     let interval = null;
-    if(active) {
+    if (active) {
       interval = setInterval(() => {
         setRemSecs(remSecs => remSecs + 1);
       }, 1000)
-    } else if(!active && remSecs !== 0) {
+    } else if (!active && remSecs !== 0) {
       clearInterval(interval)
     }
 
@@ -42,16 +43,23 @@ export default function App() {
   }, [active, remSecs]);
 
   return (
-    <View style={styles.container}>
-      <StatusBar style="light-content" />
-      <Text style={styles.timerText}>{`${mins}:${secs}`}</Text>
-      <TouchableOpacity onPress={(this.toggle)} style={styles.button}>
-        <Text style={styles.buttonText}>{active ? 'Pause' : 'Start'}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={reset} style={[styles.button, styles.buttonReset]}>
-        <Text style={[styles.buttonText, styles.buttonTextReset]}>Reset</Text>
-      </TouchableOpacity>
-    </View>
+    <NavigationContainer>
+      <View style={styles.container}>
+        <StatusBar style="light-content" />
+        <Text style={styles.timerText}>{`${mins}:${secs}`}</Text>
+        <TouchableOpacity onPress={(this.toggle)} style={styles.button}>
+          <Text style={styles.buttonText}>{active ? 'PAUSE' : 'START'}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={reset} style={[styles.button, styles.buttonReset]}>
+          <Text style={[styles.buttonText, styles.buttonTextReset]}>RESET</Text>
+        </TouchableOpacity>
+        {/* THIS IS BROKEN */}
+        <TouchableOpacity onPress={() => navigation.navigate("Swapi")} style={[styles.button, styles.swapiButton]}>
+          <Text style={[styles.buttonText, styles.swapiButtonText]}>SWAPI</Text>
+        </TouchableOpacity>
+      </View>
+    </NavigationContainer>
   );
 }
 
@@ -66,13 +74,13 @@ const styles = StyleSheet.create({
     borderWidth: 10,
     borderColor: '#B9AAFF',
     width: screen.width / 2,
-    height: screen.width / 2,
+    height: screen.width / 4,
     borderRadius: screen.width / 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
   buttonText: {
-    fontSize: 45,
+    fontSize: 40,
     color: '#B9AAFF',
   },
   timerText: {
@@ -86,5 +94,15 @@ const styles = StyleSheet.create({
   },
   buttonTextReset: {
     color: '#FF851B'
-  } 
+  },
+  swapiButton: {
+    marginTop: 20,
+    borderColor: '#13fc03',
+
+  },
+  swapiButtonText: {
+    fontSize: 40,
+    color: '#13fc03',
+
+  }
 });
